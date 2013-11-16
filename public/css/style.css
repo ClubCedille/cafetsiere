@@ -6,3 +6,47 @@ body {
 a {
   color: #00B7FF;
 }
+
+@import url(http://fonts.googleapis.com/css?family=Antic+Slab|Nova+Oval|Delius+Swash+Caps);
+
+html,body {
+  height:100%;
+}
+
+h1 {
+  
+	font-family: 'Delius Swash Caps', cursive;
+  font-size:80px;
+  color:#DDCCEE;
+}
+
+.lead {
+	color:#DDCCEE;
+	font-family: 'Delius Swash Caps', cursive;
+    
+}
+
+h1 .alternate-font{
+  	font-family: 'Nova Oval', cursive;
+  color: #7B3904;
+}
+
+
+/* Custom container */
+.container-full {
+  margin: 0 auto;
+  width: 100%;
+  min-height:100%;
+  background-color:#E67317;
+  color:#eee;
+  overflow:hidden;
+}
+
+.container-full a {
+  color:#efefef;
+  text-decoration:none;
+}
+
+.v-center {
+  margin-top:7%;
+}
