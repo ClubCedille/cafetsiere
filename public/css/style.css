@@ -1,12 +1,3 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
 @import url(http://fonts.googleapis.com/css?family=Antic+Slab|Nova+Oval|Delius+Swash+Caps);
 
 html,body {
@@ -15,31 +6,28 @@ html,body {
 
 h1 {
   
-	font-family: 'Delius Swash Caps', cursive;
+  font-family: 'Delius Swash Caps', cursive;
   font-size:80px;
-  color:#DDCCEE;
+  color:#fff;
 }
 
 .lead {
-	color:#DDCCEE;
-	font-family: 'Delius Swash Caps', cursive;
+  color:#DDCCEE;
+  font-family: 'Delius Swash Caps', cursive;
     
 }
 
 h1 .alternate-font{
-  	font-family: 'Nova Oval', cursive;
+    font-family: 'Nova Oval', cursive;
   color: #7B3904;
 }
 
 
 /* Custom container */
-.container-full {
+body {
   margin: 0 auto;
   width: 100%;
-  min-height:100%;
   background-color:#E67317;
-  color:#eee;
-  overflow:hidden;
 }
 
 .container-full a {
@@ -49,4 +37,27 @@ h1 .alternate-font{
 
 .v-center {
   margin-top:7%;
+}
+
+.coffee-strength + img{
+  opacity:0.4;
+}
+.coffee-strength:checked + img{
+  opacity:1;
+}
+
+.coffee-strength + img, .coffee{
+  -webkit-transition: opacity 500ms ease;
+  -moz-transition: opacity 500ms ease;
+  -ms-transition: opacity 500ms ease;
+  -o-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.slider.disabled{
+  opacity: 0.6;
+}
+
+.slider.disabled *{
+  cursor:default;
 }
