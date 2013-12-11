@@ -133,7 +133,7 @@
             }
 
             $.get('/htcpcp/v1/get').done(function(data){
-              var readyIn = moment.duration(data.readyIn);
+              var readyIn = moment(data.readyIn);
               var timeLeft = Math.ceil(data.readyIn / 60000);
               if(timeLeft == 1) {
                 timeLeft += 'minute';
@@ -147,7 +147,7 @@
 
               var countdown = setInterval(function(){
                 readyIn.subtract('seconds', 1);
-                if(readyIn.get('minutes') <= 0 && readyIn.get('seconds') <= 0) {
+                if(readyIn.unix() <= 0) {
                   clearInterval(countdown);
                   $('#bowlG').fadeOut();
                   $('.loader h1').css('opacity', 1);
