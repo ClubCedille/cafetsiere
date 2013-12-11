@@ -35,7 +35,7 @@ function brew(req, res){
 	coffeeHandler.brew(req, res);
 }
 function get(req, res){
-	res.send({result: 'Get'});
+	coffeeHandler.get(req, res);
 }
 function propfind(req, res){
 	res.send({result: 'Propfind'});
