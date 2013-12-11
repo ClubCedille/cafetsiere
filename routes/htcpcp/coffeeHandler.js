@@ -15,7 +15,7 @@ exports.brew = function(req, res) {
 			console.log(currentlyBrewing, config.memcached.server);
 			res.send(409, {error: 409, message: 'There is already some coffee brewing', info: currentlyBrewing});
 		} else if(!coffee) {
-			res.send(500, {error: 500, message: 'no'});
+			res.send(400, {error: 400, message: "Don't you want coffee?"});
 		} else {
 			command.exec('python ' + path.join(__dirname, 'python/brew.py ' + JSON.stringify(coffee).replace(/"/g, '\\"')), function(error, value){
 				value = value.replace(/[\r\n\\]/g, '');
@@ -25,8 +25,13 @@ exports.brew = function(req, res) {
 					res.send(418, {error: 418, message: "I'm a teapot"})
 				} else {
 					var expires = config.coffee.brewTime * 1000 + new Date().getTime();
-					memcached.set('coffee', _.extend(coffee, {expires: expires }), config.coffee.brewTime);
-					res.send(202, {success: value});
+					memcached.set('coffee', _.extend(coffee, {expires: expires }), config.coffee.brewTime, function(err){
+						if(!err){
+							res.send(202, {success: value});
+						} else {
+							res.send(500, {error: 500, message: 'An unexpected error occured before brewing'});
+						}
+					});
 				}
 			});
 		}
