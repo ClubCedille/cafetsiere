@@ -210,9 +210,9 @@
                     $.bootstrapGrowl(data.success, {type: 'success'});
                   } else {
                     $.bootstrapGrowl('Your coffee is being brewed (maybe)', {type:'success'});
-                    showTimerPanel();
-                    checkBrewStatus();
                   }
+                  showTimerPanel();
+                  checkBrewStatus();
                   that.disabled = false;
                 }).fail(function(jqXHR, status, error){
                   var data;
