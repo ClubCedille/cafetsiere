@@ -2,6 +2,7 @@ var path = require('path');
 var command = require('child_process');
 var config = require('../../config.js');
 var Memcached = require('memcached');
+var _ = require('lodash');
 
 var memcached = new Memcached(config.memcached.server, config.memcached.options);
 
@@ -23,7 +24,8 @@ exports.brew = function(req, res) {
 				} else if(value == '418') {
 					res.send(418, {error: 418, message: "I'm a teapot"})
 				} else {
-					memcached.set('coffee', coffee, config.coffee.brewTime);
+					var expires = config.coffee.brewTime * 1000 + new Date().getTime();
+					memcached.set('coffee', _.extend(coffee, {expires: expires }), config.coffee.brewTime);
 					res.send(202, {success: value});
 				}
 			});
@@ -36,7 +38,8 @@ exports.get = function(req, res) {
 		if(err) {
 			res.send(500, {error:500, message: 'An unexpected error has occured: ' + err});
 		} else if(currentlyBrewing){
-			res.send(200, currentlyBrewing);
+			var timeTillBrew = currentlyBrewing.expires - new Date().getTime();
+			res.send(200, _.extend(currentlyBrewing, {readyIn: timeTillBrew}));
 		} else {
 			res.send(404, {error: 404, message: 'No coffee is brewing at the moment'});
 		}
