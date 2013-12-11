@@ -3,7 +3,8 @@
  * HTCPCP Interpreter
  */
 
- var method = function(){return arguments[0]};
+var coffeeHandler = require('../coffeeHandler.js');
+var method = function(){return arguments[0]};
 
 exports.setup = function(app, methodFaker, uriRoot){
 	method = methodFaker.detect;
@@ -31,7 +32,7 @@ function methodHandler(req){
 }
 
 function brew(req, res){
-	res.send({result: 'Brew'});
+	coffeeHandler.brew(req, res);
 }
 function get(req, res){
 	res.send({result: 'Get'});

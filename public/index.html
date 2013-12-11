@@ -52,7 +52,7 @@
               <div class="panel-heading"><h3>Step 1 : Strength</h3></div>
               <div class="panel-body">
 
-                <div class="btn-group">
+                <div class="btn-group" title="We are sorry, but this option is currently disabled. Hopefully, you don't mind normal strength coffee" data-toggle="tooltip">
                   <label class="btn disabled btn-default">
                     <input disabled="disabled" type="radio" class="hidden coffee-strength" value="1" name="strength" />
                     <img src="/img/bean-one.png" width="48" height="48" />
@@ -73,7 +73,7 @@
           <div class="col-md-6">
             <div class="panel panel-default">
               <div class="panel-heading"><h3>Step 2 : Cups</h3></div>
-              <div class="panel-body">
+              <div class="panel-body" title="We are sorry, but this option is currently disabled. We can at least make you 4 cups of cofffee to make up for it though" data-toggle="tooltip">
                 
                 <div class="row">
                   <div class="col-md-3"></div>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                    <input disabled="disabled" type="text" id="cups" class="span2" value="" data-slider-min="2" data-slider-max="6" data-slider-step="1" data-slider-value="4" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
+                    <input disabled="disabled" value="4" type="text" id="cups" class="span2" value="" data-slider-min="2" data-slider-max="6" data-slider-step="1" data-slider-value="4" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
                   </div>
                 </div>
                 <div class="row">
@@ -131,6 +131,8 @@
                   break;
               }
             });
+
+            $('[title]').tooltip();
         
             $('#brew').on('click', function(evt){
               if(!this.disabled){
@@ -144,10 +146,14 @@
 
                 this.disabled = true;
 
-                $.extend(coffeeSettings, {strength: userStrength, cups: userCups});
+                $.extend(coffeeSettings, {coffee: {strength: userStrength, cups: userCups}});
 
                 $.ajax('/htcpcp/v1/brew', {type:'POST', data: coffeeSettings}).done(function(data){
-                  $.bootstrapGrowl('Your coffee is being brewed', {type:'success'});
+                  if(data.success) {
+                    $.bootstrapGrowl(data.success, {type: 'success'});
+                  } else {
+                    $.bootstrapGrowl('Your coffee is being brewed (maybe)', {type:'success'});
+                  }
                   that.disabled = false;
                 }).fail(function(jqXHR, status, error){
                   var data;
