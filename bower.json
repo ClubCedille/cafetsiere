@@ -5,5 +5,8 @@
     "**/.*",
     "node_modules",
     "components"
-  ]
+  ],
+  "dependencies": {
+    "moment": "~2.4.0"
+  }
 }

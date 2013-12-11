@@ -61,3 +61,143 @@ body {
 .slider.disabled *{
   cursor:default;
 }
+
+
+/******************
+*Loading Animation*
+*******************/
+.loader{
+  position:relative;
+}
+
+.loader .mug-loader{
+  width:180px;
+  margin:70px;
+  margin-left:90px;
+  position:relative;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.loader h1{
+  float:right;
+  opacity: 0;
+  -webkit-transition: opacity 500ms ease;
+  -moz-transition: opacity 500ms ease;
+  -ms-transition: opacity 500ms ease;
+  -o-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+#bowlG{
+position:absolute;
+display:inline;
+width:256px;
+height:256px;
+top:50%;
+margin-top:-128px;
+left:50%;
+margin-left:-128px;
+}
+
+#bowl_ringG{
+position:absolute;
+width:256px;
+height:256px;
+border:23px solid #000000;
+-moz-border-radius:256px;
+-webkit-border-radius:256px;
+-ms-border-radius:256px;
+-o-border-radius:256px;
+border-radius:256px;
+}
+
+.ball_holderG{
+position:absolute;
+width:68px;
+height:256px;
+left:94px;
+top:0px;
+-moz-animation-name:ball_moveG;
+-moz-animation-duration:1.3s;
+-moz-animation-iteration-count:infinite;
+-moz-animation-timing-function:linear;
+-webkit-animation-name:ball_moveG;
+-webkit-animation-duration:1.3s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-timing-function:linear;
+-ms-animation-name:ball_moveG;
+-ms-animation-duration:1.3s;
+-ms-animation-iteration-count:infinite;
+-ms-animation-timing-function:linear;
+-o-animation-name:ball_moveG;
+-o-animation-duration:1.3s;
+-o-animation-iteration-count:infinite;
+-o-animation-timing-function:linear;
+animation-name:ball_moveG;
+animation-duration:1.3s;
+animation-iteration-count:infinite;
+animation-timing-function:linear;
+}
+
+.ballG{
+position:absolute;
+left:0px;
+top:-60px;
+width:102px;
+height:102px;
+background:#e67317;
+-moz-border-radius:85px;
+-webkit-border-radius:85px;
+-ms-border-radius:85px;
+-o-border-radius:85px;
+border-radius:85px;
+}
+
+@-moz-keyframes ball_moveG{
+0%{
+-moz-transform:rotate(0deg)}
+
+100%{
+-moz-transform:rotate(360deg)}
+
+}
+
+@-webkit-keyframes ball_moveG{
+0%{
+-webkit-transform:rotate(0deg)}
+
+100%{
+-webkit-transform:rotate(360deg)}
+
+}
+
+@-ms-keyframes ball_moveG{
+0%{
+-ms-transform:rotate(0deg)}
+
+100%{
+-ms-transform:rotate(360deg)}
+
+}
+
+@-o-keyframes ball_moveG{
+0%{
+-o-transform:rotate(0deg)}
+
+100%{
+-o-transform:rotate(360deg)}
+
+}
+
+@keyframes ball_moveG{
+0%{
+transform:rotate(0deg)}
+
+100%{
+transform:rotate(360deg)}
+
+}

@@ -42,7 +42,20 @@
       
       </div>
 
-      <div class="jumbotron">
+      <div class="jumbotron loader text-center v-center">
+        <img src="/img/mug.png" class="mug-loader" />
+        <div id="bowlG">
+          <div id="bowl_ringG">
+            <div class="ball_holderG">
+              <div class="ballG">
+              </div>
+            </div>
+          </div>
+        </div>
+        <h1></h1>
+      </div>
+
+      <div class="jumbotron hidden controls">
         <div class="row text-center">
           <div class="col-md-6">
             <div class="panel panel-default">
@@ -109,9 +122,48 @@
         <script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap-slider.js"></script>
         <script type="text/javascript" src="/js/jquery.bootstrap-growl.min.js"></script>
+        <script type="text/javascript" src"/component/moment/moment.js"></script>
         <script type='text/javascript'>
         
         $(document).ready(function() {
+
+            function showControlPanel(){
+              $('.loader').addClass('hidden');
+              $('.controls').css('opacity', 0).removeClass('hidden').animate({opacity:1});
+            }
+
+            $.get('/htcpcp/v1/get').done(function(data){
+              var readyIn = moment(data.readyIn);
+              var timeLeft = Math.ceil(data.readyIn / 60000);
+              if(timeLeft == 1) {
+                timeLeft += 'minute';
+              } else {
+                timeLeft += ' minutes';
+              }
+              $.bootstrapGrowl('There is currently coffee brewing. It will be ready in ' + timeLeft, {type:'info'});
+
+              $('.mug-loader').css('left', '-200px');
+              $('.loader h1').text(readyIn.format('m:ss'));
+
+              var countdown = setInterval(function(){
+                readyIn.subtract('seconds', 1);
+                if(readyIn.get('seconds') <= 0) {
+                  clearInterval(countdown);
+                  $('.loader h1').fadeOut();
+                  $('.mug-loader').css('left','')
+                } else {
+                  $('.loader h1').text(readyIn.format('m:ss'));
+                }
+              }, 1000);
+
+            }).fail(function(jqXHR, status, error){
+              setTimeout(function(){
+                if(error != 404) {
+                  $.bootstrapGrowl('An error has occured', {type:'danger'});
+                }
+                showControlPanel();
+              }, 200)
+            });
         
             $('#cups').slider().on('slide', function(evt){
               $('#cup-counter').text(evt.value);
