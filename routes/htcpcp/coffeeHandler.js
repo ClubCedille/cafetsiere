@@ -7,9 +7,11 @@ var memcached = new Memcached(config.memcached.server, config.memcached.options)
 
 exports.brew = function(req, res) {
 	var coffee = req.param('coffee');
-	memcached.get('coffee', function(currentlyBrewing){
-		if(currentlyBrewing) {
-			console.log(currentlyBrewing, config.memcached.server, config.memcached.options);
+	memcached.get('coffee', function(err, currentlyBrewing){
+		if(err) {
+			res.send(500, {error:500, message: 'An unexpected error has occured: ' + err});
+		} else if(currentlyBrewing) {
+			console.log(currentlyBrewing, config.memcached.server);
 			res.send(409, {error: 409, message: 'There is already some coffee brewing', info: currentlyBrewing});
 		} else if(!coffee) {
 			res.send(500, {error: 500, message: 'no'});
@@ -30,8 +32,10 @@ exports.brew = function(req, res) {
 }
 
 exports.get = function(req, res) {
-	memcached.get('coffee', function(currentlyBrewing){
-		if(currentlyBrewing){
+	memcached.get('coffee', function(err, currentlyBrewing){
+		if(err) {
+			res.send(500, {error:500, message: 'An unexpected error has occured: ' + err});
+		} else if(currentlyBrewing){
 			res.send(200, currentlyBrewing);
 		} else {
 			res.send(404, {error: 404, message: 'No coffee is brewing at the moment'});
