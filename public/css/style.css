@@ -83,7 +83,10 @@ body {
 }
 
 .loader h1{
-  float:right;
+  position:absolute;
+  left:50%;
+  top:50%;
+  margin-top:-.5em;
   opacity: 0;
   -webkit-transition: opacity 500ms ease;
   -moz-transition: opacity 500ms ease;
