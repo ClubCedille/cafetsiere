@@ -128,47 +128,58 @@
         $(document).ready(function() {
 
             function showControlPanel(){
-              $('.loader').addClass('hidden');
-              $('.controls').css('opacity', 0).removeClass('hidden').animate({opacity:1});
+              if(!$('.controls').is(':visible')){
+                $('.loader').addClass('hidden');
+                $('.controls').css('opacity', 0).removeClass('hidden').animate({opacity:1});
+              }
             }
 
-            $.get('/htcpcp/v1/get').done(function(data){
-              var readyIn = moment(data.readyIn);
-              var timeLeft = Math.ceil(data.readyIn / 60000);
-              if(timeLeft == 1) {
-                timeLeft += 'minute';
-              } else {
-                timeLeft += ' minutes';
+            function showTimerPanel(){
+              if($('.controls').is(':visible')){
+                $('.controls').addClass('hidden');
+                $('.loader').css('opacity', 0).removeClass('hidden').animate({opacity:1});
               }
-              $.bootstrapGrowl('There is currently coffee brewing. It will be ready in ' + timeLeft, {type:'info'});
+            }
 
-              $('.mug-loader').css('left', '-115px');
-              $('.loader h1').text(readyIn.format('m:ss'));
-              $('.loader h1').css('opacity', 1);
-              $('#bowlG').fadeOut();
-
-              var countdown = setInterval(function(){
-                readyIn.subtract('seconds', 1);
-                if(readyIn.unix() <= 0) {
-                  clearInterval(countdown);
-                  $('.loader h1').css('opacity', 0);
-                  $('.mug-loader').css('left','');
-                  $.bootstrapGrowl("Ding! Ding! Coffee's ready!", {type:'info'});
-                  setTimeout(showControlPanel, 1000);
+            function checkBrewStatus(){
+              $.get('/htcpcp/v1/get').done(function(data){
+                var readyIn = moment(data.readyIn);
+                var timeLeft = Math.ceil(data.readyIn / 60000);
+                if(timeLeft == 1) {
+                  timeLeft += 'minute';
                 } else {
-                  $('.loader h1').text(readyIn.format('m:ss'));
+                  timeLeft += ' minutes';
                 }
-              }, 1000);
+                $.bootstrapGrowl('There is currently coffee brewing. It will be ready in ' + timeLeft, {type:'info'});
 
-            }).fail(function(jqXHR, status, error){
-              setTimeout(function(){
-                var data = JSON.parse(jqXHR.responseText);
-                if(data.error != 404) {
-                  $.bootstrapGrowl('An error has occured', {type:'danger'});
-                }
-                showControlPanel();
-              }, 200)
-            });
+                $('.mug-loader').css('left', '-115px');
+                $('.loader h1').text(readyIn.format('m:ss'));
+                $('.loader h1').css('opacity', 1);
+                $('#bowlG').fadeOut();
+
+                var countdown = setInterval(function(){
+                  readyIn.subtract('seconds', 1);
+                  if(readyIn.unix() <= 0) {
+                    clearInterval(countdown);
+                    $('.loader h1').css('opacity', 0);
+                    $('.mug-loader').css('left','');
+                    $.bootstrapGrowl("Ding! Ding! Coffee's ready!", {type:'info'});
+                    setTimeout(showControlPanel, 1000);
+                  } else {
+                    $('.loader h1').text(readyIn.format('m:ss'));
+                  }
+                }, 1000);
+
+              }).fail(function(jqXHR, status, error){
+                setTimeout(function(){
+                  var data = JSON.parse(jqXHR.responseText);
+                  if(data.error != 404) {
+                    $.bootstrapGrowl('An error has occured', {type:'danger'});
+                  }
+                  showControlPanel();
+                }, 200)
+              });
+            }
         
             $('#cups').slider().on('slide', function(evt){
               $('#cup-counter').text(evt.value);
@@ -207,6 +218,8 @@
                     $.bootstrapGrowl(data.success, {type: 'success'});
                   } else {
                     $.bootstrapGrowl('Your coffee is being brewed (maybe)', {type:'success'});
+                    showTimerPanel();
+                    checkBrewStatus();
                   }
                   that.disabled = false;
                 }).fail(function(jqXHR, status, error){
