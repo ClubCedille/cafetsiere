@@ -145,14 +145,16 @@
               $('.mug-loader').css('left', '-115px');
               $('.loader h1').text(readyIn.format('m:ss'));
               $('.loader h1').css('opacity', 1);
+              $('#bowlG').fadeOut();
 
               var countdown = setInterval(function(){
                 readyIn.subtract('seconds', 1);
                 if(readyIn.unix() <= 0) {
                   clearInterval(countdown);
-                  $('#bowlG').fadeOut();
                   $('.loader h1').css('opacity', 0);
-                  $('.mug-loader').css('left','')
+                  $('.mug-loader').css('left','');
+                  $.bootstrapGrowl("Ding! Ding! Coffee's ready!", {type:'info'});
+                  setTimeout(showControlPanel, 1000);
                 } else {
                   $('.loader h1').text(readyIn.format('m:ss'));
                 }
