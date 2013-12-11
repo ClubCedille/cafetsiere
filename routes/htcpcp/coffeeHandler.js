@@ -16,7 +16,7 @@ exports.brew = function(req, res) {
 		} else if(!coffee) {
 			res.send(500, {error: 500, message: 'no'});
 		} else {
-			command.exec('py ' + path.join(__dirname, 'python/brew.py ' + JSON.stringify(coffee).replace(/"/g, '\\"')), function(error, value){
+			command.exec('python ' + path.join(__dirname, 'python/brew.py ' + JSON.stringify(coffee).replace(/"/g, '\\"')), function(error, value){
 				value = value.replace(/[\r\n\\]/g, '');
 				if(value == 'Error') {
 					res.send(500, {error: 500, message: 'An unexpected error occured before brewing'});

@@ -143,9 +143,9 @@
 
                 this.disabled = true;
 
-                $.extend(coffeeSettings, {coffee: {strength: userStrength, cups: userCups}});
+                $.extend(coffeeSettings, {strength: userStrength, cups: userCups});
 
-                window.jqxhr = $.ajax('/htcpcp/v1/brew', {type:'POST', data: coffeeSettings}).done(function(data){
+                window.jqxhr = $.ajax('/htcpcp/v1/brew', {type:'POST', data: {coffee: coffeeSettings}}).done(function(data){
                   if(data.success) {
                     $.bootstrapGrowl(data.success, {type: 'success'});
                   } else {
