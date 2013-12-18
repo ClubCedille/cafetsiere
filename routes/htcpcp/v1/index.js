@@ -1,4 +1,3 @@
-
 /*
  * HTCPCP Interpreter
  */
@@ -41,7 +40,7 @@ function propfind(req, res){
 	res.send({result: 'Propfind'});
 }
 function when(req, res){
-	res.send({result: 'When'});
+	res.send(501, {error: 501, message: 'Our cows are currently on vacation'});
 }
 
 function notImplemented(req, res){
