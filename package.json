@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "express": "~3.3.4",
-    "memcached": "~0.2.6",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "duino": "0.0.8"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
