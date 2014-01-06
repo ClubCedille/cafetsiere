@@ -3,12 +3,12 @@
  */
 
 var coffeeHandler = require('../coffeeHandler.js');
-var method = function(){return arguments[0]};
+var method = function(){return arguments[0];};
 
 exports.setup = function(app, methodFaker, uriRoot){
 	method = methodFaker.detect;
 	app.all(uriRoot + '/:method', methodHandler);
-}
+};
 
 function methodHandler(req){
 	switch(method(req)){

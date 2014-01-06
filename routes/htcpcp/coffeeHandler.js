@@ -22,7 +22,7 @@ exports.brew = function(req, res) {
 				if(value == 'Error') {
 					res.send(500, {error: 500, message: 'An unexpected error occured before brewing'});
 				} else if(value == '418') {
-					res.send(418, {error: 418, message: "I'm a teapot"})
+					res.send(418, {error: 418, message: "I'm a teapot"});
 				} else {
 					var expires = config.coffee.brewTime * 1000 + new Date().getTime();
 					memcached.set('coffee', _.extend(coffee, {expires: expires }), config.coffee.brewTime, function(err){
@@ -36,7 +36,7 @@ exports.brew = function(req, res) {
 			});
 		}
 	});
-}
+};
 
 exports.get = function(req, res) {
 	memcached.get('coffee', function(err, currentlyBrewing){
@@ -49,4 +49,4 @@ exports.get = function(req, res) {
 			res.send(404, {error: 404, message: 'No coffee is brewing at the moment'});
 		}
 	});
-}
+};

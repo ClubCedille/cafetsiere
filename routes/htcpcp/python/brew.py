@@ -9,9 +9,8 @@ class CoffeeDaemon(Daemon):
 		coffee = json.loads(coffee)
 		return "We are now brewing {} Cups of delicious".format(coffee['cups'])
 	
-	def stop(coffee):
-		coffee = json.loads(coffee)
-		return "We are now brewing {} Cups of delicious".format(coffee['cups'])
+	def stop():
+		return "Coffee's Done"
 
 
 if __name__ == "__main__":
@@ -19,14 +18,14 @@ if __name__ == "__main__":
 	if len(sys.argv) == 2 || len(sys.argv) == 3:
 		if 'brew' == sys.argv[1]:
 			if len(sys.argv) == 3:
-				daemon.brew()
+				print daemon.brew()
 			else:
-				print 'Missing JSON data'
+				print 'Error: Missing JSON data'
 				sys.exit(2)
 		elif 'stop' == sys.argv[1]:
-			daemon.stop()
+			print daemon.stop()
 		else:
-			print 'Unknown Command'
+			print 'Error: Unknown Command'
 			sys.exit(2)
 		sys.exit(0)
 	else :

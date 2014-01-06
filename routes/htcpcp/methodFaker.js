@@ -14,10 +14,9 @@ function MethodFaker() {
 			}
 		}
 		return req.method;
-	}
+	};
 }
-
 
 exports.methodFaker = function() {
 	return new MethodFaker();
-}
+};

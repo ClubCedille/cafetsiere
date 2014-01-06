@@ -1,8 +1,8 @@
-'use strict';
-
-var request = require('request');
-
 module.exports = function (grunt) {
+  "use strict";
+  
+  var request = require('request');
+
   // show elapsed time at the end
   require('time-grunt')(grunt);
   // load all grunt tasks
@@ -17,6 +17,14 @@ module.exports = function (grunt) {
         file: 'app.js'
       }
     },
+    jshint: {
+      gruntfile: {
+        src: ['./Gruntfile.js']
+      },
+      server: {
+        src: ['routes/**/*.js']
+      }
+    },
     watch: {
       options: {
         nospawn: true,
@@ -27,7 +35,7 @@ module.exports = function (grunt) {
           'app.js',
           'routes/*.js'
         ],
-        tasks: ['develop', 'delayed-livereload']
+        tasks: ['jshint:server', 'develop', 'delayed-livereload']
       },
       js: {
         files: ['public/js/*.js'],
@@ -41,11 +49,9 @@ module.exports = function (grunt) {
           livereload: reloadPort
         }
       },
-      jade: {
-        files: ['views/*.jade'],
-        options: {
-          livereload: reloadPort
-        }
+      gruntfile: {
+        files: ['./Gruntfile.js'],
+        tasks: ['jshint:gruntfile']
       }
     }
   });
@@ -69,5 +75,5 @@ module.exports = function (grunt) {
     }, 500);
   });
 
-  grunt.registerTask('default', ['develop', 'watch']);
+  grunt.registerTask('default', ['jshint:gruntfile', 'jshint:server', 'develop', 'watch']);
 };
