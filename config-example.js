@@ -6,6 +6,10 @@ var config = {
 
 	coffee: {
 		brewTime: 60 * 5 //5 minutes
+	},
+
+	arduino: {
+		pin: 6
 	}
 }
 
