@@ -2,33 +2,62 @@ var path = require('path');
 var command = require('child_process');
 var config = require('../../config.js');
 var _ = require('lodash');
-var arduino = require('duino');
+var Serialport = require('serialport');
 
 /************
 *** Setup ***
 *************/
 var board;
-var coffeeSwitch;
+var coffeeSwitch = new CoffeeSwitch();
 var boardIsSetup = false;
 var boardIsReady = false;
 var currentlyBrewing;
 
-try{
-	setupCoffeePort();
-} catch(err) {
-	console.error('Port not found');
+function CoffeeSwitch(serial){
+	var serialport = serial;
+	var serialSet = function(){
+		if(!serialport) {
+			console.error('No serial port set to coffee switch');
+			return false;
+		} else {
+			return true;
+		}
+	};
+
+	this.on = function(){
+		if(serialSet()) {
+			serialport.write("1");
+		}
+	};
+
+	this.off = function(){
+		if(serialSet()) {
+			serialport.write("0");
+		}
+	};
+
+	this.set = function(newSerial){
+		serialport = newSerial;
+	};
 }
 
 function setupCoffeePort(){
-	board = new arduino.Board();
-	coffeeSwitch = new arduino.Led({
-		board: board,
-		pin: config.arduino.pin
+	board = new Serialport.SerialPort("/dev/ttyUSB0", {baudrate: 57600}, false);
+	
+	board.on('error', function(err){
+		console.log(err);
 	});
-	board.on('ready', function(){
+
+	board.open(function(err){
+		if (err) {
+			console.log(err);
+			return;
+		}
+		console.log('Coffee a-go-go, baby');
+		coffeeSwitch.set(board);
 		boardIsReady = true;
+		boardIsSetup = true;
 	});
-	boardIsSetup = true;
 }
 
 function physicalBrew(coffee){
@@ -74,6 +103,7 @@ exports.brew = function(req, res) {
 			if(e.name == "MultiBrewError") {
 				res.send(418, {error: 418, message: "I'm a teapot", info: 'Server/Coffee connection is acting outside of parameters'});
 			} else if (e.name == "SerialPortMissing") {
+				console.error('HTCPCP server not connected');
 				res.send(418, {error: 418, message: "I'm a teapot", info: 'Server/Coffee connection not established'});
 			} else {
 				res.send(500, {error: 500, message: 'An unexpected error occured before brewing'});

@@ -8,7 +8,8 @@
   "dependencies": {
     "express": "~3.3.4",
     "lodash": "~2.4.1",
-    "duino": "0.0.8"
+    "duino": "0.0.8",
+    "serialport": "~1.3.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
