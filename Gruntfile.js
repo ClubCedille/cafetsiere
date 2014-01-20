@@ -12,9 +12,11 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    develop: {
+    express: {
       server: {
-        file: 'app.js'
+        options:{
+          script: 'app.js'
+        }
       }
     },
     jshint: {
@@ -33,9 +35,9 @@ module.exports = function (grunt) {
       server: {
         files: [
           'app.js',
-          'routes/*.js'
+          'routes/**/*.js'
         ],
-        tasks: ['jshint:server', 'develop', 'delayed-livereload']
+        tasks: ['jshint:server', 'express', 'delayed-livereload']
       },
       js: {
         files: ['public/js/*.js'],
@@ -75,5 +77,5 @@ module.exports = function (grunt) {
     }, 500);
   });
 
-  grunt.registerTask('default', ['jshint:gruntfile', 'jshint:server', 'develop', 'watch']);
+  grunt.registerTask('default', ['jshint:gruntfile', 'jshint:server', 'express', 'watch']);
 };

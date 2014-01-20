@@ -17,6 +17,7 @@
     "request": "~2.27.0",
     "time-grunt": "~0.1.1",
     "load-grunt-tasks": "~0.2.0",
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-express-server": "~0.4.11"
   }
 }
