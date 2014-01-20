@@ -41,13 +41,17 @@ function CoffeeSwitch(serial){
 	};
 }
 
-function setupCoffeePort(){
+(function setupCoffeePort(){
 	board = new Serialport.SerialPort("/dev/ttyUSB0", {baudrate: 57600}, false);
-	
+
 	board.on('error', function(err){
 		console.log(err);
 	});
 
+	openCoffeePort();
+})();
+
+function openCoffeePort(){
 	board.open(function(err){
 		if (err) {
 			console.log(err);
@@ -62,6 +66,7 @@ function setupCoffeePort(){
 
 function physicalBrew(coffee){
 	if(!boardIsSetup) {
+		openCoffeePort();
 		throw {
 			name: "SerialPortMissing",
 			message: "Could not locate Coffee Pot"
