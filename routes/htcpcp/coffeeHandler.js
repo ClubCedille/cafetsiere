@@ -26,13 +26,13 @@ function CoffeeSwitch(serial){
 
 	this.on = function(){
 		if(serialSet()) {
-			serialport.write("1");
+			serialport.write("R");
 		}
 	};
 
 	this.off = function(){
 		if(serialSet()) {
-			serialport.write("0");
+			serialport.write("S");
 		}
 	};
 
@@ -42,7 +42,7 @@ function CoffeeSwitch(serial){
 }
 
 (function setupCoffeePort(){
-	board = new Serialport.SerialPort("/dev/ttyUSB0", {baudrate: 57600}, false);
+	board = new Serialport.SerialPort("/dev/ttyACM0", {baudrate: 9600}, false);
 
 	board.on('error', function(err){
 		console.log(err);
@@ -88,7 +88,7 @@ function physicalBrew(coffee){
 		_.delay(function(){
 			coffeeSwitch.off();
 			currentlyBrewing = null;
-		}, config.coffee.brewTime);
+		}, config.coffee.brewTime * 1000);
 	}
 }
 
